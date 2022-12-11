@@ -1,7 +1,7 @@
 CREATE TABLE GiaoVien (
 CCCD          CHAR(12)    PRIMARY KEY,
-HO_VA_TENLOT  VARCHAR(15) NOT NULL, 
-TEN           VARCHAR(15) NOT NULL, 
+HO_VA_TENLOT  VARCHAR(30) NOT NULL, 
+TEN           VARCHAR(30) NOT NULL, 
 Bdate         DATE, 
 Address       VARCHAR(30) NOT NULL, 
 Sex           VARCHAR(5), 
@@ -79,8 +79,8 @@ PRIMARY KEY (TenMonHoc, TenKhoiLop),
 
 CREATE TABLE HocSinh (
 MSHS          VARCHAR(10)	  PRIMARY KEY, 
-HO_VA_TENLOT  VARCHAR(15) NOT NULL, 
-TEN           VARCHAR(15) NOT NULL, 
+HO_VA_TENLOT  VARCHAR(30) NOT NULL, 
+TEN           VARCHAR(30) NOT NULL, 
 Bdate         DATE, 
 Address       VARCHAR(30),
 Sex           VARCHAR(5)  
@@ -149,8 +149,8 @@ PRIMARY KEY (GV_CCCD, TenLopDay, TenNamHoc),
 );         
 CREATE TABLE PhuHuynh (
 MSHS          VARCHAR(10), 
-HO_VA_TENLOT  VARCHAR(15) NOT NULL, 
-TEN           VARCHAR(15) NOT NULL, 
+HO_VA_TENLOT  VARCHAR(30) NOT NULL, 
+TEN           VARCHAR(30) NOT NULL, 
 PRIMARY KEY (MSHS, HO_VA_TENLOT, TEN),
 QuanHe        VARCHAR(10),
 PhoneNumber   VARCHAR(10), 

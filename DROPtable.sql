@@ -1,0 +1,22 @@
+-- Xóa b?ng (khi c?n)
+drop table tk_gv;
+drop table tk_hs;
+drop table tk_admin;
+drop table taikhoan; 
+drop table phuhuynh; 
+drop table giangday; 
+drop table kiemtra; 
+drop table phanlop; 
+drop table lop; 
+drop table hocsinh; 
+drop table hoctap; 
+drop table hocky; 
+drop table phong; 
+drop table giamthi; 
+drop table namhoc; 
+drop table khoilop;
+alter table monhoc drop constraint fk_MonHoc_Thuoc_BoMon; 
+drop table tobomon; 
+drop table giaoviengiangday; 
+drop table giaovien; 
+drop table monhoc;
