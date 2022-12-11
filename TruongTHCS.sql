@@ -37,7 +37,7 @@ CCCD_TBM        CHAR(12),
 TBM_StartDate   DATE, 
   CONSTRAINT fk_TruongBoMon FOREIGN KEY (CCCD_TBM)
         REFERENCES GiaoVienGiangDay(GVGD_CCCD)
-        ON DELETE set null deferrable
+        ON DELETE set null
 );
 
 CREATE TABLE MonHoc (
@@ -54,7 +54,7 @@ ChucNang        varchar(30),
 CCCD_CBQL       CHAR(12),
   CONSTRAINT fk_Phong_Do_Ai_Quan_ly FOREIGN KEY (CCCD_CBQL)
         REFERENCES GiamThi(GT_CCCD)
-        ON DELETE SET NULL DEFERRABLE
+        ON DELETE SET NULL
 );
 CREATE TABLE HocKy(
 TenHocKy      varchar(12), 
@@ -111,7 +111,7 @@ PRIMARY KEY(MSHS, TenLop, NamHoc),
         ON DELETE CASCADE, 
     CONSTRAINT fk_HS_LopHoc_NamHoc FOREIGN KEY (TenLop, NamHoc)
         REFERENCES Lop(TenLop, NamHoc)
-        ON DELETE SET NULL DEFERRABLE
+        ON DELETE SET NULL
 ); 
 
 CREATE TABLE KiemTra (
@@ -158,7 +158,7 @@ Bdate         DATE,
 Sex           VARCHAR(5),
   CONSTRAINT fk_PhuHuynh_HS FOREIGN KEY (MSHS)
         REFERENCES HocSinh(MSHS)
-        ON DELETE SET NULL DEFERRABLE
+        ON DELETE SET NULL
 ); 
 
 CREATE TABLE TAIKHOAN (
@@ -192,4 +192,4 @@ USERNAME    VARCHAR(10) PRIMARY KEY,
 ALTER TABLE GiaoVien
 	ADD CONSTRAINT fk_GV_day_mon_gi FOREIGN KEY (MonGiangDay) 
 				REFERENCES MonHoc(TenMonHoc) 
-				ON DELETE SET NULL DEFERRABLE;
+				ON DELETE SET NULL;
