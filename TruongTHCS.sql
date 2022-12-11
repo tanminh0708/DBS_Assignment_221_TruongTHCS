@@ -83,7 +83,7 @@ HO_VA_TENLOT  VARCHAR(15) NOT NULL,
 TEN           VARCHAR(15) NOT NULL, 
 Bdate         DATE, 
 Address       VARCHAR(30),
-Sex           VARCHAR(5),  
+Sex           VARCHAR(5)  
 );
 
 CREATE TABLE Lop (
@@ -136,16 +136,12 @@ KT_CuoiKi     FLOAT,
 );
 
 CREATE TABLE GiangDay (
-GV_CCCD       CHAR(12), 
-TenMonHoc     varchar(12), 
+GV_CCCD       CHAR(12),  
 TenLopDay     varchar(12), 
 TenNamHoc     varchar(12), 
-PRIMARY KEY (TenMonHoc, TenLopDay, TenNamHoc), 
+PRIMARY KEY (GV_CCCD, TenLopDay, TenNamHoc), 
   CONSTRAINT GiangDay_GiaoVien FOREIGN KEY (GV_CCCD)
         REFERENCES GiaoVienGiangDay(GVGD_CCCD)
-        ON DELETE CASCADE, 
-  CONSTRAINT GiangDay_MonHoc FOREIGN KEY (TenMonHoc)
-        REFERENCES MonHoc(TenMonHoc)
         ON DELETE CASCADE, 
   CONSTRAINT GiangDay_LopDay_NamHoc FOREIGN KEY (TenLopDay, TenNamHoc)
         REFERENCES Lop(TenLop, NamHoc)
@@ -158,17 +154,39 @@ TEN           VARCHAR(15) NOT NULL,
 PRIMARY KEY (MSHS, HO_VA_TENLOT, TEN),
 QuanHe        VARCHAR(10),
 PhoneNumber   VARCHAR(10), 
-TenLop        VARCHAR(5), 
 Bdate         DATE, 
 Sex           VARCHAR(5),
   CONSTRAINT fk_PhuHuynh_HS FOREIGN KEY (MSHS)
         REFERENCES HocSinh(MSHS)
         ON DELETE SET NULL DEFERRABLE
 ); 
+
 CREATE TABLE TAIKHOAN (
-CHUCVU VARCHAR(10), 
-USERNAME VARCHAR(10) PRIMARY KEY, 
-PASS VARCHAR(10)
+USERNAME    VARCHAR(10) PRIMARY KEY, 
+PASS        VARCHAR(10)
+);
+
+CREATE TABLE TK_GV (
+USERNAME    VARCHAR(10) PRIMARY KEY, 
+CCCD        CHAR(12),
+    CONSTRAINT fk_tkGV FOREIGN KEY (USERNAME)
+          REFERENCES TAIKHOAN(USERNAME)
+          ON DELETE CASCADE
+);
+
+CREATE TABLE TK_HS (
+USERNAME    VARCHAR(10) PRIMARY KEY, 
+MSHS        VARCHAR(10),
+    CONSTRAINT fk_tkHS FOREIGN KEY (USERNAME)
+          REFERENCES TAIKHOAN(USERNAME)
+          ON DELETE CASCADE
+);
+
+CREATE TABLE TK_admin (
+USERNAME    VARCHAR(10) PRIMARY KEY, 
+    CONSTRAINT fk_tkadmin FOREIGN KEY (USERNAME)
+          REFERENCES TAIKHOAN(USERNAME)
+          ON DELETE CASCADE
 );
 -----------------------------------
 ALTER TABLE GiaoVien
