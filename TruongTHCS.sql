@@ -6,8 +6,6 @@ Bdate         DATE,
 Address       VARCHAR(30) NOT NULL, 
 Sex           VARCHAR(5), 
 PhoneNumber   VARCHAR(10), 
-Username      VARCHAR(50) NOT NULL, 
-Pass          VARCHAR(50) NOT NULL, 
 MonGiangDay   VARCHAR(10)
 );  
 
@@ -52,7 +50,7 @@ TenBoMon      varchar(12),
 
 CREATE TABLE Phong (
 MASOPHONG       VARCHAR(10) PRIMARY KEY, 
-ChucNang        varchar(10), 
+ChucNang        varchar(30), 
 CCCD_CBQL       CHAR(12),
   CONSTRAINT fk_Phong_Do_Ai_Quan_ly FOREIGN KEY (CCCD_CBQL)
         REFERENCES GiamThi(GT_CCCD)
@@ -86,8 +84,6 @@ TEN           VARCHAR(15) NOT NULL,
 Bdate         DATE, 
 Address       VARCHAR(30),
 Sex           VARCHAR(5),  
-Username      VARCHAR(50) NOT NULL, 
-Pass          VARCHAR(50) NOT NULL
 );
 
 CREATE TABLE Lop (
@@ -169,6 +165,11 @@ Sex           VARCHAR(5),
         REFERENCES HocSinh(MSHS)
         ON DELETE SET NULL DEFERRABLE
 ); 
+CREATE TABLE TAIKHOAN (
+CHUCVU VARCHAR(10), 
+USERNAME VARCHAR(10) PRIMARY KEY, 
+PASS VARCHAR(10)
+);
 -----------------------------------
 ALTER TABLE GiaoVien
 	ADD CONSTRAINT fk_GV_day_mon_gi FOREIGN KEY (MonGiangDay) 
