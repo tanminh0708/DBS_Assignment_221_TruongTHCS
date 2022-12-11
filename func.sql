@@ -1,4 +1,4 @@
--- T?o View
+-- Tao View
 CREATE OR REPLACE VIEW DS_GIAOVIEN AS
     SELECT CCCD, HO_VA_TENLOT, TEN, SEX, BDATE, ADDRESS, PHONENUMBER, MONGIANGDAY
     FROM GIAOVIEN
@@ -10,7 +10,7 @@ CREATE OR REPLACE VIEW DS_HOCSINH AS
 ;
 
 
--- Procedure xem h?c sinh trong m?t n?m h?c 
+-- Procedure xem hoc sinh trong mot nam hoc 
 CREATE OR REPLACE PROCEDURE VIEW_ALLSTUDENTS (TENNAMHOC IN PHANLOP.NAMHOC%TYPE) 
 AS
     c1 SYS_REFCURSOR; 
@@ -24,7 +24,7 @@ BEGIN
 END VIEW_ALLSTUDENTS;
 /
 
--- Procedure xem h?c sinh trong m?t l?p 
+-- Procedure xem hoc sinh trong mot lop 
 CREATE OR REPLACE PROCEDURE VIEW_ALLSTUDENTS_CLASS (LOP IN PHANLOP.TENLOP%TYPE, TENNAMHOC IN PHANLOP.NAMHOC%TYPE) 
 AS
     c1 SYS_REFCURSOR; 
@@ -38,7 +38,7 @@ BEGIN
 END VIEW_ALLSTUDENTS_CLASS;
 /
 
--- Procedure xem giáo viên trong m?t t? b? môn
+-- Procedure xem giáo viên trong mot to bo môn
 CREATE OR REPLACE PROCEDURE VIEW_TEACHERS_DEPT (BOMON IN MONHOC.TENBOMON%TYPE) 
 AS
     c1 SYS_REFCURSOR; 
@@ -52,7 +52,7 @@ BEGIN
 END VIEW_TEACHERS_DEPT;
 /
 
--- Procedure thêm h?c sinh vào tr??ng
+-- Procedure thêm hoc sinh vào truong
 CREATE OR REPLACE PROCEDURE INSERT_STUDENT (
     MSHS       IN DS_HOCSINH.MSHS%TYPE,
     HOTENLOT   IN DS_HOCSINH.HO_VA_TENLOT%TYPE,
@@ -111,9 +111,9 @@ CREATE OR REPLACE TRIGGER CHECK_INSERT_TEACHER
 BEFORE INSERT ON GIAOVIEN
 FOR EACH ROW
 BEGIN 
---     IF (regexp_like(:NEW.CCCD,'[[:alpha:] *!?@#$&+()/]')) THEN
---        raise_application_error(-20000,'CCCD CHI DUOC PHEP CHUA KY TU SO');
---    END IF;
+    IF (regexp_like(:NEW.CCCD,'[[:alpha:] *!?@#$&+()/]')) THEN
+        raise_application_error(-20000,'CCCD CHI DUOC PHEP CHUA KY TU SO');
+    END IF;
 
     IF(regexp_like(:NEW.HO_VA_TENLOT, '[0123456789*!?@#$&+()/]') OR regexp_like(:NEW.TEN, '[0123456789*!?@#$&+()/]')) THEN
         raise_application_error(-20000,'HO VA TEN KHONG DUOC CHUA KY TU SO HAY KY TU DAC BIET');

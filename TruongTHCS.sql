@@ -1,5 +1,5 @@
 CREATE TABLE GiaoVien (
-CCCD          CHAR(12)    PRIMARY KEY,
+CCCD          VARCHAR(12)    PRIMARY KEY,
 HO_VA_TENLOT  VARCHAR(30) NOT NULL, 
 TEN           VARCHAR(30) NOT NULL, 
 Bdate         DATE, 
@@ -10,14 +10,14 @@ MonGiangDay   VARCHAR(10)
 );  
 
 CREATE TABLE GiamThi (
-GT_CCCD       CHAR(12)    PRIMARY KEY,
+GT_CCCD       VARCHAR(12)    PRIMARY KEY,
   CONSTRAINT fk_GiamThi_CCCD FOREIGN KEY (GT_CCCD)
           REFERENCES GiaoVien(CCCD)
           ON DELETE CASCADE
 ); 
 
 CREATE TABLE GiaoVienGiangDay (
-GVGD_CCCD   CHAR(12)    PRIMARY KEY,
+GVGD_CCCD   VARCHAR(12)    PRIMARY KEY,
   CONSTRAINT fk_GVGD_CCCD FOREIGN KEY (GVGD_CCCD)
         REFERENCES GiaoVien(CCCD)
         ON DELETE CASCADE
@@ -33,7 +33,7 @@ KhoiLop       char(1) PRIMARY KEY
 
 CREATE TABLE ToBoMon (
 TenBoMon        varchar(12) PRIMARY KEY, 
-CCCD_TBM        CHAR(12),
+CCCD_TBM        VARCHAR(12),
 TBM_StartDate   DATE, 
   CONSTRAINT fk_TruongBoMon FOREIGN KEY (CCCD_TBM)
         REFERENCES GiaoVienGiangDay(GVGD_CCCD)
@@ -51,7 +51,7 @@ TenBoMon      varchar(12),
 CREATE TABLE Phong (
 MASOPHONG       VARCHAR(10) PRIMARY KEY, 
 ChucNang        varchar(30), 
-CCCD_CBQL       CHAR(12),
+CCCD_CBQL       VARCHAR(12),
   CONSTRAINT fk_Phong_Do_Ai_Quan_ly FOREIGN KEY (CCCD_CBQL)
         REFERENCES GiamThi(GT_CCCD)
         ON DELETE SET NULL
@@ -90,7 +90,7 @@ CREATE TABLE Lop (
 TenLop        VARCHAR(5), 
 NamHoc        varchar(10), 
 PRIMARY KEY (TenLop, NamHoc), 
-GVCN_CCCD     CHAR(12), 
+GVCN_CCCD     VARCHAR(12), 
 SoPhong       varchar(8), 
 KhoiLop       char(1), 
   CONSTRAINT fk_Lop_NamHoc FOREIGN KEY (NamHoc)
@@ -136,7 +136,7 @@ KT_CuoiKi     FLOAT,
 );
 
 CREATE TABLE GiangDay (
-GV_CCCD       CHAR(12),  
+GV_CCCD       VARCHAR(12),  
 TenLopDay     varchar(12), 
 TenNamHoc     varchar(12), 
 PRIMARY KEY (GV_CCCD, TenLopDay, TenNamHoc), 
@@ -168,7 +168,7 @@ PASS        VARCHAR(10)
 
 CREATE TABLE TK_GV (
 USERNAME    VARCHAR(10) PRIMARY KEY, 
-CCCD        CHAR(12),
+CCCD        VARCHAR(12),
     CONSTRAINT fk_tkGV FOREIGN KEY (USERNAME)
           REFERENCES TAIKHOAN(USERNAME)
           ON DELETE CASCADE
