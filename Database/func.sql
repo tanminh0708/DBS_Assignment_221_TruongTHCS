@@ -9,7 +9,7 @@ CREATE OR REPLACE VIEW DS_HOCSINH AS
     FROM HOCSINH
 ;
 
--- Procedure thêm hoc sinh vào truong
+-- Procedure them hoc sinh vao truong
 CREATE OR REPLACE PROCEDURE INSERT_STUDENT (
     MSHS       IN DS_HOCSINH.MSHS%TYPE,
     HOTENLOT   IN DS_HOCSINH.HO_VA_TENLOT%TYPE,
@@ -28,7 +28,7 @@ CREATE OR REPLACE TRIGGER CHECK_INSERT_STUDENT
 BEFORE INSERT ON HOCSINH
 FOR EACH ROW
 BEGIN 
-     IF (regexp_like(:NEW.MSHS,'[[:alpha:] *!?@#$&+()/]')) THEN
+    IF (regexp_like(:NEW.MSHS,'[[:alpha:] *!?@#$&+()/]')) THEN
         raise_application_error(-20000,'MSHS CHI DUOC PHEP CHUA KY TU SO');
     END IF;
 
@@ -46,7 +46,7 @@ BEGIN
 END;
 /
 
--- Procedure thêm giáo viên
+-- Procedure them giao vien
 CREATE OR REPLACE PROCEDURE INSERT_TEACHER (
     CCCD        IN DS_GIAOVIEN.CCCD%TYPE,
     HOTENLOT    IN DS_GIAOVIEN.HO_VA_TENLOT%TYPE,
@@ -86,8 +86,52 @@ BEGIN
 END;
 /
 
+-- Trigger cho tinh nang cap nhat thong tin hoc sinh, giao vien
+CREATE OR REPLACE TRIGGER CHECK_UPDATE_HS
+BEFORE UPDATE ON HOCSINH
+FOR EACH ROW
+BEGIN
+    IF (regexp_like(:NEW.MSHS,'[[:alpha:] *!?@#$&+()/]')) THEN
+        raise_application_error(-20000,'MSHS CHI DUOC PHEP CHUA KY TU SO');
+    END IF;
 
--- Procedure nh?p ?i?m, c?p nh?t di?m
+    IF(regexp_like(:NEW.HO_VA_TENLOT, '[0123456789*!?@#$&+()/]') OR regexp_like(:NEW.TEN, '[0123456789*!?@#$&+()/]')) THEN
+        raise_application_error(-20000,'HO VA TEN KHONG DUOC CHUA KY TU SO HAY KY TU DAC BIET');
+    END IF;
+
+    IF(:NEW.SEX != 'NAM' AND :NEW.SEX != 'NU') THEN
+        raise_application_error(-20000,'GIOI TINH PHAI LA NAM HOAC NU');
+    END IF;
+    
+    IF(EXTRACT(YEAR FROM SYSDATE) - EXTRACT(YEAR FROM :NEW.BDATE)) > 15 THEN
+        raise_application_error(-20000,'DO TUOI LON HON DO TUOI QUY DINH HOC CAP THCS');
+    END IF;
+END;
+/
+
+CREATE OR REPLACE TRIGGER CHECK_UPDATE_GV
+BEFORE UPDATE ON GIAOVIEN
+FOR EACH ROW
+BEGIN 
+    IF (regexp_like(:NEW.CCCD,'[[:alpha:] *!?@#$&+()/]')) THEN
+        raise_application_error(-20000,'CCCD CHI DUOC PHEP CHUA KY TU SO');
+    END IF;
+
+    IF(regexp_like(:NEW.HO_VA_TENLOT, '[0123456789*!?@#$&+()/]') OR regexp_like(:NEW.TEN, '[0123456789*!?@#$&+()/]')) THEN
+        raise_application_error(-20000,'HO VA TEN KHONG DUOC CHUA KY TU SO HAY KY TU DAC BIET');
+    END IF;
+
+    IF(:NEW.SEX != 'NAM' AND :NEW.SEX != 'NU') THEN
+        raise_application_error(-20000,'GIOI TINH PHAI LA NAM HOAC NU');
+    END IF;
+    
+    IF(EXTRACT(YEAR FROM SYSDATE) - EXTRACT(YEAR FROM :NEW.BDATE)) < 18 THEN
+        raise_application_error(-20000,'DO TUOI CHUA DU TUOI QUY DINH');
+    END IF;
+END;
+/
+
+-- Procedure nhap diem, cap nhat diem
 CREATE OR REPLACE PROCEDURE CAPNHATDIEM (
     nMSHS      IN  KIEMTRA.MSHS%TYPE, 
     nMonHoc    IN  KIEMTRA.MonHoc%TYPE, 
@@ -137,7 +181,7 @@ BEGIN
 END;
 /
 
--- Function tính t?ng s? h?c sinh c?a tr??ng
+-- Function tính tong so hoc sinh cua truong
 CREATE OR REPLACE FUNCTION SUMOFSTUDENTS
 RETURN INT
 AS
@@ -150,7 +194,7 @@ BEGIN
 END;
 /
 
--- Function tính t?ng s? h?c sinh c?a l?p
+-- Function tính tong so hoc sinh cua lop
 CREATE OR REPLACE FUNCTION SUMOFSTUDENTS_INCLASS (LOP IN PHANLOP.TENLOP%TYPE, TENNAMHOC IN PHANLOP.NAMHOC%TYPE)
 RETURN INT
 AS
@@ -163,3 +207,28 @@ BEGIN
     RETURN SUM_STU;
 END;
 /
+
+-- Function tinh tong so giao vien cua truong
+CREATE OR REPLACE FUNCTION SUMOFTEACHERS
+RETURN INT
+AS
+    SUM_TEACHERS    INT;
+BEGIN
+    SELECT COUNT(*) INTO SUM_TEACHERS
+    FROM GIAOVIEN;
+    
+    RETURN SUM_TEACHERS;
+END;
+/
+-- Function tính tong so giao vien trong mot to bo mon
+CREATE OR REPLACE FUNCTION SUMOFTEACHERS_DEPT (BOMON IN MONHOC.TENBOMON%TYPE)
+RETURN INT
+AS
+    SUM_TEACHERS    INT;
+BEGIN
+    SELECT COUNT(*) INTO SUM_TEACHERS
+    FROM MONHOC JOIN GIAOVIEN ON (TENMONHOC = MONGIANGDAY)
+    WHERE TENBOMON = BOMON;
+    
+    RETURN SUM_TEACHERS;
+END;

@@ -1,24 +1,31 @@
---In h?c sinh toàn tr??ng
+--In hoc sinh toan truong
 SELECT * FROM DS_HOCSINH;
 
 --In giao vien toan truong
 SELECT * FROM DS_GIAOVIEN;
+
+--In cac to bo mon trong truong
+SELECT * FROM TOBOMON;
+
+--In cac to bo mon kem mon hoc thuoc to do
+SELECT TENBOMON, TENMONHOC FROM MONHOC 
+ORDER BY TENBOMON;
 
 --In giao vien theo to bo mon
 SELECT CCCD, HO_VA_TENLOT, TEN, SEX, BDATE, ADDRESS, PHONENUMBER, MONGIANGDAY
 FROM DS_GIAOVIEN JOIN MONHOC ON MONGIANGDAY = TENMONHOC
 WHERE TENBOMON = 'TU NHIEN';
 
---In thông tin gvcn các l?p
+--In thong tin gvcn cac lop
 SELECT CCCD, HO_VA_TENLOT, TEN, TENLOP AS LOP_CHU_NHIEM, NAMHOC
 FROM DS_GIAOVIEN JOIN LOP ON CCCD = GVCN_CCCD;
 
---In h?c sinh theo l?p mong mu?n
+--In hoc sinh theo lop mong muon
 SELECT E.MSHS, HO_VA_TENLOT, TEN, SEX, BDATE, ADDRESS
 FROM DS_HOCSINH E JOIN PHANLOP F ON E.MSHS = F.MSHS
 WHERE TENLOP = '6A1';
 
---In ?i?m các môn c?a h?c sinh nào ?ó (neu co nhiem nam hoc thi phai xet them nam hoc)
+--In diem cac mon cua hoc sinh nao do (neu co nhiem nam hoc thi phai xet them nam hoc)
 SELECT F.MONHOC, F.HOCKY, F.NAMHOC, F.KT_MIENG, F.KT_15PHUT, F.KT_1TIET, F.KT_CUOIKI, ROUND(((KT_MIENG + KT_15PHUT + KT_1TIET*2 + KT_CUOIKI*3)/7),2) AS DTB
 FROM HOCSINH E JOIN KIEMTRA F ON E.MSHS = F.MSHS
 WHERE E.MSHS = '2858';

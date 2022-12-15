@@ -1,5 +1,0 @@
-- File TruongTHCS.sql: chứa các lệnh tạo bảng.
-- File Dataset.sql: chứa các lệnh chèn dữ liệu vào bảng để minh họa.
-- File DROPtable.sql: chứa các lệnh xóa bảng, khi cần.
-- File func.sql: chứa các hàm, thủ tục, tạo view.
-- File test.sql: chứa các lệnh để chạy thử các hàm, thủ tục.
